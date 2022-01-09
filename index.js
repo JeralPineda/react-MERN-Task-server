@@ -22,10 +22,8 @@ app.use(express.static('public'));
 // Lectura y parseo del body
 app.use(express.json());
 
-//Definir la pagina principal
-app.get('/', (req, res) => {
-   res.send('Hola mundo');
-});
+//Importar rutas
+app.use('/api/auth', require('./routes/auth'));
 
 // arrancar la app
 app.listen(PORT, () => {
