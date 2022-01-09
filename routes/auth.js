@@ -1,10 +1,11 @@
 // Rutas para crear usuarios
 
 const { Router } = require('express');
-const { loginUsuario } = require('../controllers/auth');
+const { registerUser } = require('../controllers/auth');
 
 const router = Router();
 
-router.post('/', loginUsuario);
+// Crear un usuario
+router.post('/register', registerUser);
 
 module.exports = router;
