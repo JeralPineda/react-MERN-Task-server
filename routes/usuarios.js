@@ -1,7 +1,7 @@
 // Rutas para crear usuarios
 
 const { Router } = require('express');
-const { registerUser } = require('../controllers/auth');
+const { registerUser } = require('../controllers/usuarios');
 
 const router = Router();
 

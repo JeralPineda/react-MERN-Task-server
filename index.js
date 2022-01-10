@@ -23,7 +23,7 @@ app.use(express.static('public'));
 app.use(express.json());
 
 //Importar rutas
-app.use('/api/auth', require('./routes/auth'));
+app.use('/api/auth', require('./routes/usuarios'));
 
 // arrancar la app
 app.listen(PORT, () => {
