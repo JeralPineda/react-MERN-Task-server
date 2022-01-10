@@ -11,7 +11,7 @@ const router = Router();
 // Crear un usuario
 // api/auth
 router.post(
-   '/register',
+   '/',
    [
       //Midlewares
       check('nombre', 'El nombre es obligatorio').not().isEmpty(),
