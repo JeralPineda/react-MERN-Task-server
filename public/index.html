@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google SignIn</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="./css/styles.css">
+
+</head>
+
+<body>
+
+    <div class="container p-5">
+        <div class="row rounded-lg ali">
+
+            <div class="col-md-4 mx-auto">
+                <div class="card text-center">
+                    <div class="card-header">
+                        <h3>Google SignIn</h3>
+                    </div>
+                    <img src="./img/deadpool.jpg" alt="Logo Fazt" class="card-img-top mx-auto m-2 rounded-circle w-50">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center mb-2">
+                            <div id="g_id_onload"
+                                data-client_id="516980502824-kh7pi95prq1qc5efumrol78qh0ltbg44.apps.googleusercontent.com"
+                                data-callback="handleCredentialResponse" data-auto_prompt="false"
+                                data-auto_select="true">
+                            </div>
+
+                            <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+                                data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
+                            </div>
+
+                            <button id="g_id_signout">Sign Out</button>
+
+
+                            <hr>
+                            <h1>One Tap</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Google SignIn API -->
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+        <script>
+
+            // Si la url es localhost usar una de las 2 url
+            var url = (window.location.hostname.includes('localhost')) ? 'http://localhost:4000/api/auth/google' : 'https://restserver-node-jc.herokuapp.com/api/auth/google';
+
+            // Iniciar sesión
+            function handleCredentialResponse(response) {
+
+                const body = { id_token: response.credential }
+
+                fetch('http://localhost:4000/api/usuarios/google-register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                }).then(resp => resp.json()).then(resp => console.log(resp)).catch(console.warn)
+            }
+
+            // Cerrar Sesión
+            // function signOut() {
+            //     var auth2 = gapi.auth2.getAuthInstance();
+            //     auth2.signOut().then(function () {
+            //         console.log('User signed out.');
+            //     });
+            // }
+
+        </script>
+</body>
+
+</html>
