@@ -19,26 +19,39 @@ const iniciarSesionGoogle = async (req, res = response) => {
 
       let usuario = await Usuario.findOne({ email });
 
-      // Validando si el correo ya existe
-      if (usuario) {
-         return res.status(400).json({
-            ok: false,
-            msg: 'El usuario ya existe',
+      if (!usuario) {
+         // Tengo que crearlo
+         const data = {
+            nombre,
+            email,
+            password: ':P',
+            google: true,
+         };
+
+         usuario = new Usuario(data);
+         await usuario.save();
+      }
+
+      // Si el usuario en DB
+      if (!usuario.estado) {
+         return res.status(401).json({
+            msg: 'Hable con el administrador, usuario bloqueado',
          });
       }
 
+      /// Generar el JWT
+      const token = await generarJWT(usuario.id);
+
       res.json({
          ok: true,
-         msg: 'Usuario creado correctamente',
-         nombre,
-         email,
+         token,
       });
    } catch (error) {
       console.log(error);
 
       res.status(500).json({
          ok: false,
-         msg: 'Hable con el administrador',
+         msg: 'Token de Google no valido',
       });
    }
 };
