@@ -3,13 +3,13 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { crearUsuario } = require('../controllers/usuarios');
+const { crearUsuario, crearUsuarioGoogle } = require('../controllers/usuarios');
 const { validarCampos } = require('../middlewares/validar-campos');
 
 const router = Router();
 
 // Crear un usuario
-// api/auth
+// api/usuarios
 router.post(
    '/',
    [
@@ -21,5 +21,9 @@ router.post(
    ],
    crearUsuario
 );
+
+// Crear usuario con google
+// api/usuarios/google
+router.post('/google-register', [check('id_token', 'El id_token es necesario').not().isEmpty(), validarCampos], crearUsuarioGoogle);
 
 module.exports = router;

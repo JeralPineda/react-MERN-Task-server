@@ -46,6 +46,17 @@ const crearUsuario = async (req, res = response) => {
    }
 };
 
+const crearUsuarioGoogle = async (req, res = response) => {
+   const { id_token } = req.body;
+
+   res.json({
+      ok: true,
+      msg: 'Usuario creado correctamente',
+      id_token,
+   });
+};
+
 module.exports = {
    crearUsuario,
+   crearUsuarioGoogle,
 };
