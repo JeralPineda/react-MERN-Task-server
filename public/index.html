@@ -70,7 +70,7 @@
                     body: JSON.stringify(body)
                 }).then(r => r.json()).then(resp => {
                     console.log(resp)
-                    localStorage.setItem('email', resp.usuario.email)
+                    // localStorage.setItem('email', resp.usuario.email)
                 }
                 ).catch(console.warn)
             }
