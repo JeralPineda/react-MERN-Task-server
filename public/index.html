@@ -57,14 +57,14 @@
         <script>
 
             // Si la url es localhost usar una de las 2 url
-            var url = (window.location.hostname.includes('localhost')) ? 'http://localhost:4000/api/auth/google' : 'https://restserver-node-jc.herokuapp.com/api/auth/google';
+            var url = (window.location.hostname.includes('localhost')) ? 'http://localhost:4000/api/usuarios/google-register' : 'https://restserver-node-jc.herokuapp.com/api/auth/google';
 
             // Iniciar sesión
             function handleCredentialResponse(response) {
 
                 const body = { id_token: response.credential }
 
-                fetch('http://localhost:4000/api/usuarios/google-register', {
+                fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
