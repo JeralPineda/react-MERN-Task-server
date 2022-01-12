@@ -68,16 +68,26 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(body)
-                }).then(resp => resp.json()).then(resp => console.log(resp)).catch(console.warn)
+                }).then(r => r.json()).then(resp => {
+                    console.log(resp)
+                    localStorage.setItem('email', resp.usuario.email)
+                }
+                ).catch(console.warn)
             }
 
             // Cerrar Sesión
-            // function signOut() {
-            //     var auth2 = gapi.auth2.getAuthInstance();
-            //     auth2.signOut().then(function () {
-            //         console.log('User signed out.');
-            //     });
-            // }
+            const button = document.getElementById('g_id_signout');
+
+            button.onclick = async () => {
+
+                console.log(google.accounts.id)
+                google.accounts.id.disableAutoSelect()
+                google.accounts.id.revoke(localStorage.getItem('email'), done => {
+                    console.log('consent revoked');
+                    localStorage.clear()
+                    location.reload()
+                });
+            }
 
         </script>
 </body>
