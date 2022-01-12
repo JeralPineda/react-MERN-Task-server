@@ -2,7 +2,8 @@ const { response } = require('express');
 const bcrypt = require('bcryptjs');
 
 const Usuario = require('../models/Usuario');
-const { generarJWT } = require('../helpers/jwt');
+const { generarJWT } = require('../helpers/generar-jwt');
+const { googleVerify } = require('../helpers/google-verify');
 
 const crearUsuario = async (req, res = response) => {
    const { email, password } = req.body;
@@ -49,11 +50,23 @@ const crearUsuario = async (req, res = response) => {
 const crearUsuarioGoogle = async (req, res = response) => {
    const { id_token } = req.body;
 
-   res.json({
-      ok: true,
-      msg: 'Usuario creado correctamente',
-      id_token,
-   });
+   try {
+      const { nombre, email } = await googleVerify(id_token);
+
+      res.json({
+         ok: true,
+         msg: 'Usuario creado correctamente',
+         nombre,
+         email,
+      });
+   } catch (error) {
+      console.log(error);
+
+      res.status(500).json({
+         ok: false,
+         msg: 'Hable con el administrador',
+      });
+   }
 };
 
 module.exports = {
