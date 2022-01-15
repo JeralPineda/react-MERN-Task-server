@@ -26,7 +26,7 @@ const iniciarSesion = async (req, res = response) => {
       if (!passwordCorrecto) {
          return res.status(400).json({
             ok: false,
-            msg: 'El usuario o la contraseñá son incorrectos',
+            msg: 'El password es incorrecto',
          });
       }
 
