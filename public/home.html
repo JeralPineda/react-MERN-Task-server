@@ -11,7 +11,7 @@
 <body>
     <script>
         const query = window.location.search.substring(1) || '';
-        const name = query.split('name=')[1];
+        const name = query.split('token=')[1];
         document.body.appendChild(
             document.createTextNode(`Welcome, ${decodeURIComponent(name)}`)
         );
