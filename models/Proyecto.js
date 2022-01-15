@@ -16,4 +16,14 @@ const ProyectoSchema = Schema({
    },
 });
 
+// Limitamos la información de la petición a mostrar
+ProyectoSchema.methods.toJSON = function () {
+   const { __v, _id, ...proyecto } = this.toObject();
+
+   //    Remplazamos el nombre de _id por uid
+   proyecto.id = _id;
+
+   return proyecto;
+};
+
 module.exports = model('Proyecto', ProyectoSchema);
