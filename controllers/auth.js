@@ -7,9 +7,44 @@ const { generarJWT } = require('../helpers/generar-jwt');
 const { googleVerify } = require('../helpers/google-verify');
 
 const iniciarSesion = async (req, res = response) => {
-   res.json({
-      msg: 'Iniciar sesión...',
-   });
+   const { email, password } = req.body;
+
+   try {
+      let usuario = await Usuario.findOne({ email });
+
+      // Validando si el correo ya existe
+      if (!usuario) {
+         return res.status(400).json({
+            ok: false,
+            msg: 'El usuario no existe',
+         });
+      }
+
+      //   Revisar el password
+      const passwordCorrecto = await bcrypt.compare(password, usuario.password);
+
+      if (!passwordCorrecto) {
+         return res.status(400).json({
+            ok: false,
+            msg: 'El usuario o la contraseñá son incorrectos',
+         });
+      }
+
+      //   Generar el JWT
+      const token = await generarJWT(usuario.id, usuario.nombre);
+
+      res.status(201).json({
+         ok: true,
+         token,
+      });
+   } catch (error) {
+      console.log(error);
+
+      res.status(500).json({
+         ok: false,
+         msg: 'Hable con el administrador',
+      });
+   }
 };
 
 const iniciarSesionGoogle = async (req, res = response) => {
@@ -81,7 +116,7 @@ const iniciarSesionGithub = async (req, res = response) => {
       });
 
       const accessToken = tokenResponse.data.access_token;
-      console.log(`access token: ${accessToken}`);
+      //   console.log(`access token: ${accessToken}`);
 
       const result = await axios({
          method: 'get',
@@ -96,7 +131,7 @@ const iniciarSesionGithub = async (req, res = response) => {
       //   res.redirect(`/home.html?name=${name}`);
 
       const { email, name: nombre } = result.data;
-      console.log({ nombre, email });
+      //   console.log({ nombre, email });
 
       let usuario = await Usuario.findOne({ email });
 
@@ -136,7 +171,7 @@ const iniciarSesionGithub = async (req, res = response) => {
       //      token,
       //   });
 
-      res.redirect(`/home.html?name=${token}`);
+      res.redirect(`/home.html?token=${token}`);
    } catch (error) {
       console.log(error);
 
