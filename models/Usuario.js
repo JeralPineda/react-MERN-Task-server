@@ -40,7 +40,7 @@ UsuarioSchema.methods.toJSON = function () {
    const { __v, password, _id, ...usuario } = this.toObject();
 
    //    Remplazamos el nombre de _id por uid
-   usuario.uid = _id;
+   usuario.id = _id;
 
    return usuario;
 };
