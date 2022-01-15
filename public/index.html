@@ -42,6 +42,15 @@
 
 
                         </div>
+                        <!-- Button GitHub -->
+                        <div class="">
+                            <a id='signin_github'>Sign in
+                                GitHub</a>
+
+                            <button id="g_id_signout">Cerrar Sesión</button>
+
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -88,6 +97,20 @@
                     location.reload()
                 });
             }
+
+            var URLsearch = window.location.search;
+            console.log(URLsearch)
+
+
+            //GitHub Oauth
+            // fill in your cliend_id
+            const client_id = 'b1e0c5d11e39b2b213f0';
+
+            const authorize_uri = 'https://github.com/login/oauth/authorize';
+            const redirect_uri = 'http://localhost:4000/api/auth/github';
+
+            const link = document.getElementById('signin_github');
+            link.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`;
 
         </script>
 </body>
