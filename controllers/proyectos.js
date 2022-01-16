@@ -1,13 +1,23 @@
 const { response } = require('express');
-// const Proyecto = require('../models/Proyecto');
+const Proyecto = require('../models/Proyecto');
 
 const postProyecto = async (req, res = response) => {
+   const creador = req.id;
    const { nombre } = req.body;
 
+   const data = {
+      nombre,
+      creador,
+   };
+
    try {
-      res.json({
-         msg: 'nuevo proyecto',
-         nombre,
+      // Crear un nuevo proyecto
+      const proyecto = new Proyecto(data);
+      proyecto.save();
+
+      res.status(201).json({
+         ok: true,
+         proyecto,
       });
    } catch (error) {
       console.log(error);
