@@ -2,7 +2,9 @@ const { response } = require('express');
 const Proyecto = require('../models/Proyecto');
 
 const postProyecto = async (req, res = response) => {
+   //extremos el id del usuario autenticado
    const creador = req.id;
+
    const { nombre } = req.body;
 
    const data = {
@@ -13,6 +15,8 @@ const postProyecto = async (req, res = response) => {
    try {
       // Crear un nuevo proyecto
       const proyecto = new Proyecto(data);
+
+      //Guardamos el proyecto en la BD
       proyecto.save();
 
       res.status(201).json({
