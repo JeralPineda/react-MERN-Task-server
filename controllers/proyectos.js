@@ -58,7 +58,54 @@ const obtenerProyectos = async (req, res = response) => {
    }
 };
 
+// Actualizar un proyecto
+const actualizarProyecto = async (req, res = response) => {
+   const { id } = req.params;
+   const { nombre } = req.body;
+
+   const nuevoProyecto = {};
+
+   try {
+      nuevoProyecto.nombre = nombre;
+
+      // Revisar el ID
+      let proyecto = await Proyecto.findById(id);
+
+      // Verificar que le proyecto exista
+      if (!proyecto) {
+         return res.status(404).json({
+            ok: false,
+            msg: 'Proyecto no encontrado',
+         });
+      }
+
+      // Verificar el creador del proyecto
+      if (proyecto.creador.toString() !== req.id) {
+         return res.status(401).json({
+            ok: false,
+            msg: 'No autorizado',
+         });
+      }
+
+      // Actualizar
+      proyecto = await Proyecto.findByIdAndUpdate(id, { $set: nuevoProyecto }, { new: true });
+
+      res.json({
+         ok: true,
+         proyecto,
+      });
+   } catch (error) {
+      console.log(error);
+
+      res.status(500).json({
+         ok: false,
+         msg: 'Hable con el administrador',
+      });
+   }
+};
+
 module.exports = {
    postProyecto,
    obtenerProyectos,
+   actualizarProyecto,
 };
