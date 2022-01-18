@@ -104,8 +104,50 @@ const actualizarProyecto = async (req, res = response) => {
    }
 };
 
+// Eliminar un proyecto
+const eliminarProyecto = async (req, res = response) => {
+   const { id } = req.params;
+
+   try {
+      // Revisar el ID
+      let proyecto = await Proyecto.findById(id);
+
+      // Verificar que le proyecto exista
+      if (!proyecto) {
+         return res.status(404).json({
+            ok: false,
+            msg: 'Proyecto no encontrado',
+         });
+      }
+
+      // Verificar el creador del proyecto
+      if (proyecto.creador.toString() !== req.id) {
+         return res.status(401).json({
+            ok: false,
+            msg: 'No autorizado',
+         });
+      }
+
+      // Eliminar el proyecto
+      proyecto = await Proyecto.findOneAndDelete(id);
+
+      res.json({
+         ok: true,
+         msg: 'Proyecto eliminado',
+      });
+   } catch (error) {
+      console.log(error);
+
+      res.status(500).json({
+         ok: false,
+         msg: 'Hable con el administrador',
+      });
+   }
+};
+
 module.exports = {
    postProyecto,
    obtenerProyectos,
    actualizarProyecto,
+   eliminarProyecto,
 };

@@ -3,7 +3,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { postProyecto, obtenerProyectos, actualizarProyecto } = require('../controllers/proyectos');
+const { postProyecto, obtenerProyectos, actualizarProyecto, eliminarProyecto } = require('../controllers/proyectos');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
@@ -38,6 +38,19 @@ router.put(
       validarCampos,
    ],
    actualizarProyecto
+);
+
+// Eliminar un proyecto por su id
+// api/proyectos/:id
+router.delete(
+   '/:id',
+   [
+      // middlewares
+      validarJWT,
+      check('id', 'No es un id de Mongo valido').isMongoId(),
+      validarCampos,
+   ],
+   eliminarProyecto
 );
 
 module.exports = router;
