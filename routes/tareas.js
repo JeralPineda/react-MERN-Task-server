@@ -3,7 +3,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { crearTarea, obtenerTareas } = require('../controllers/tareas');
+const { crearTarea, obtenerTareas, actualizarTarea } = require('../controllers/tareas');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -35,6 +35,19 @@ router.get(
       validarCampos,
    ],
    obtenerTareas
+);
+
+// Actualizar una tarea por su id
+// api/tareas/:id
+router.put(
+   '/:id',
+   [
+      //middlewares
+      validarJWT,
+      check('id', 'No es un id de Mongo valido').isMongoId(),
+      validarCampos,
+   ],
+   actualizarTarea
 );
 
 module.exports = router;
