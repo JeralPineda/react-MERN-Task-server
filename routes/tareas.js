@@ -3,7 +3,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { crearTarea } = require('../controllers/tareas');
+const { crearTarea, obtenerTareas } = require('../controllers/tareas');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -22,6 +22,19 @@ router.post(
       validarCampos,
    ],
    crearTarea
+);
+
+// Obtener tareas por proyecto
+// api/tareas/:id
+router.get(
+   '/',
+   [
+      // middlewares
+      validarJWT,
+      check('proyecto', 'El proyecto es obligatorio').not().isEmpty(),
+      validarCampos,
+   ],
+   obtenerTareas
 );
 
 module.exports = router;
