@@ -18,6 +18,7 @@ router.post(
       // middlewares
       validarJWT,
       check('nombre', 'El nombre es obligatorio').not().isEmpty(),
+      check('proyecto', 'El proyecto es obligatorio').not().isEmpty(),
       validarCampos,
    ],
    crearTarea
