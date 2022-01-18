@@ -9,10 +9,14 @@ const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
+// Obtener todos los proyectos
+// api/proyectos
+router.get('/', validarJWT, obtenerProyectos);
+
 // Crear proyectos
 // api/proyectos/nuevo
 router.post(
-   '/nuevo',
+   '/',
    [
       //Midlewares
       validarJWT,
@@ -21,10 +25,6 @@ router.post(
    ],
    postProyecto
 );
-
-// Obtener todos los proyectos
-// api/proyectos
-router.get('/', validarJWT, obtenerProyectos);
 
 // Actualizar un proyecto por id
 // api/proyectos/:id
