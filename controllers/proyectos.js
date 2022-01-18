@@ -129,7 +129,7 @@ const eliminarProyecto = async (req, res = response) => {
       }
 
       // Eliminar el proyecto
-      proyecto = await Proyecto.findOneAndDelete(id);
+      proyecto = await Proyecto.findByIdAndDelete(id);
 
       res.json({
          ok: true,
