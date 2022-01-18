@@ -145,8 +145,67 @@ const actualizarTarea = async (req, res = response) => {
    }
 };
 
+// Eliminar una tarea por id
+const eliminarTarea = async (req, res = response) => {
+   const { id } = req.params;
+   const { proyecto } = req.body;
+
+   try {
+      //Revisar si la tarea existe
+      let tarea = await Tarea.findById(id);
+
+      if (!tarea) {
+         return res.status(404).json({
+            ok: false,
+            msg: 'No existe esa tarea',
+         });
+      }
+
+      //Validar que el proyecto exista
+      const proyectoExiste = await Proyecto.findById(proyecto);
+
+      if (!proyectoExiste) {
+         return res.status(404).json({
+            ok: false,
+            msg: 'Proyecto no encontrado',
+         });
+      }
+
+      if (tarea.proyecto.toString() !== proyecto) {
+         return res.status(401).json({
+            ok: false,
+            msg: 'No autorizado',
+         });
+      }
+
+      // Verificar que el proyecto actual pertenece al usuario autenticado
+      if (proyectoExiste.creador.toString() !== req.id) {
+         return res.status(401).json({
+            ok: false,
+            msg: 'No autorizado',
+         });
+      }
+
+      // Eliminar el tarea
+      await Tarea.findByIdAndDelete(id);
+
+      res.json({
+         ok: true,
+         msg: 'Tarea eliminada',
+      });
+   } catch (error) {
+      console.log(error);
+
+      res.status(500).json({
+         ok: false,
+         msg: 'Hable con el administrador',
+      });
+   }
+};
+
 module.exports = {
    crearTarea,
    obtenerTareas,
    actualizarTarea,
+   eliminarTarea,
 };

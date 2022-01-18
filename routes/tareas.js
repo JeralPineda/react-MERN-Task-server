@@ -3,7 +3,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { crearTarea, obtenerTareas, actualizarTarea } = require('../controllers/tareas');
+const { crearTarea, obtenerTareas, actualizarTarea, eliminarTarea } = require('../controllers/tareas');
 
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
@@ -48,6 +48,20 @@ router.put(
       validarCampos,
    ],
    actualizarTarea
+);
+
+// Eliminar una tarea por su id
+// api/tareas/:id
+router.delete(
+   '/:id',
+   [
+      //middlewares
+      validarJWT,
+      check('id', 'No es un id de Mongo valido').isMongoId(),
+      check('proyecto', 'El proyecto es obligatorio').not().isEmpty(),
+      validarCampos,
+   ],
+   eliminarTarea
 );
 
 module.exports = router;
