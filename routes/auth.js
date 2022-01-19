@@ -3,8 +3,9 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { iniciarSesion, iniciarSesionGoogle, iniciarSesionGithub } = require('../controllers/auth');
+const { iniciarSesion, iniciarSesionGoogle, iniciarSesionGithub, usuarioAutenticado } = require('../controllers/auth');
 const { validarCampos } = require('../middlewares/validar-campos');
+const { validarJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
@@ -28,5 +29,8 @@ router.post('/google', [check('id_token', 'El id_token es necesario').not().isEm
 // Iniciar sesión con github
 // api/auth/github
 router.get('/github', iniciarSesionGithub);
+
+//Obtiene el usuario autenticado
+router.get('/', validarJWT, usuarioAutenticado);
 
 module.exports = router;

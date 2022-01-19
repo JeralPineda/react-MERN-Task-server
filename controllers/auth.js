@@ -179,8 +179,30 @@ const iniciarSesionGithub = async (req, res = response) => {
          ok: false,
          msg: 'Token de GitHub no valido',
       });
+   }
+};
 
-      res.render();
+//Obtiene que usuario esta autenticado
+const usuarioAutenticado = async (req, res = response) => {
+   const { id, name } = req;
+
+   try {
+      //    Generar un nuevo JWT y retornarlo en esta nueva petición
+      const token = await generarJWT(id, name);
+
+      res.json({
+         ok: true,
+         id,
+         name,
+         token,
+      });
+   } catch (error) {
+      console.log(error);
+
+      res.status(500).json({
+         ok: false,
+         msg: 'Hable con el administrador',
+      });
    }
 };
 
@@ -188,4 +210,5 @@ module.exports = {
    iniciarSesion,
    iniciarSesionGoogle,
    iniciarSesionGithub,
+   usuarioAutenticado,
 };
