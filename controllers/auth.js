@@ -83,7 +83,7 @@ const iniciarSesionGoogle = async (req, res = response) => {
       }
 
       /// Generar el JWT
-      const token = await generarJWT(usuario.id);
+      const token = await generarJWT(usuario.id, usuario.nombre);
 
       res.json({
          ok: true,
