@@ -66,6 +66,15 @@ const iniciarSesionGoogle = async (req, res = response) => {
 
          usuario = new Usuario(data);
          await usuario.save();
+
+         /// Generar el JWT
+         const token = await generarJWT(usuario.id, usuario.nombre);
+
+         return res.json({
+            ok: true,
+            //  usuario,
+            token,
+         });
       }
 
       if (usuario && usuario.google === false) {
@@ -116,7 +125,6 @@ const iniciarSesionGithub = async (req, res = response) => {
       });
 
       const accessToken = tokenResponse.data.access_token;
-      //   console.log(`access token: ${accessToken}`);
 
       const result = await axios({
          method: 'get',
@@ -126,12 +134,8 @@ const iniciarSesionGithub = async (req, res = response) => {
             Authorization: `token ${accessToken}`,
          },
       });
-      //   console.log(result.data);
-      //   const name = result.data.email;
-      //   res.redirect(`/home.html?name=${name}`);
 
       const { email, name: nombre } = result.data;
-      //   console.log({ nombre, email });
 
       let usuario = await Usuario.findOne({ email });
 
@@ -146,13 +150,17 @@ const iniciarSesionGithub = async (req, res = response) => {
 
          usuario = new Usuario(data);
          await usuario.save();
+
+         /// Generar el JWT
+         const token = await generarJWT(usuario.id, usuario.nombre);
+
+         return res.redirect(`/?token=${token}`);
       }
 
       if (usuario && usuario.github === false) {
          // Tengo que actualizarlo
 
          await Usuario.findByIdAndUpdate(usuario.id, { github: true });
-         //  await usuario.save();
       }
 
       // Si el usuario en DB
@@ -163,15 +171,9 @@ const iniciarSesionGithub = async (req, res = response) => {
       }
 
       /// Generar el JWT
-      const token = await generarJWT(usuario.id);
+      const token = await generarJWT(usuario.id, usuario.nombre);
 
-      //   res.json({
-      //      ok: true,
-      //      //  usuario,
-      //      token,
-      //   });
-
-      res.redirect(`/home.html?token=${token}`);
+      res.redirect(`${process.env.GITHUB_HOME_URL}/?token=${token}`);
    } catch (error) {
       console.log(error);
 
