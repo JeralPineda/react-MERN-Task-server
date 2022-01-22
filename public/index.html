@@ -23,34 +23,33 @@
             <div class="col-md-4 mx-auto">
                 <div class="card text-center">
                     <div class="card-header">
-                        <h3>Google SignIn</h3>
+                        <h3>MERN TASK</h3>
                     </div>
                     <img src="./img/deadpool.jpg" alt="Logo Fazt" class="card-img-top mx-auto m-2 rounded-circle w-50">
                     <div class="card-body">
                         <div class="d-flex justify-content-center mb-2">
-                            <div id="g_id_onload"
-                                data-client_id="516980502824-kh7pi95prq1qc5efumrol78qh0ltbg44.apps.googleusercontent.com"
-                                data-callback="handleCredentialResponse" data-auto_prompt="false"
-                                data-auto_select="true">
-                            </div>
+                            <!-- <div id="g_id_onload" data-client_id="" data-callback="handleCredentialResponse"
+                                data-auto_prompt="false" data-auto_select="true">
+                            </div> -->
 
-                            <div class="g_id_signin mr-2" data-type="standard" data-size="large" data-theme="outline"
-                                data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
-                            </div>
+                            <!-- <div class="g_id_signin mr-2 aria-disabled=" true" data-type="standard" data-size="large"
+                                data-theme="outline" data-text="sign_in_with" data-shape="rectangular"
+                                data-logo_alignment="left">
+                            </div> -->
 
-                            <button id="g_id_signout">Cerrar Sesión</button>
+                            <!-- <button id="g_id_signout">Cerrar Sesión</button> -->
 
 
                         </div>
                         <!-- Button GitHub -->
-                        <div class="">
-                            <a id='signin_github'>Sign in
+                        <!-- <div class="">
+                            <a id='signin_github' aria-disabled="true">Sign in
                                 GitHub</a>
 
                             <button id="g_id_signout">Cerrar Sesión</button>
 
 
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -69,48 +68,48 @@
             // Iniciar sesión
             function handleCredentialResponse(response) {
 
-                const body = { id_token: response.credential }
+                // const body = { id_token: response.credential }
 
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(body)
-                }).then(r => r.json()).then(resp => {
-                    console.log(resp)
-                    // localStorage.setItem('email', resp.usuario.email)
-                }
-                ).catch(console.warn)
+                // fetch(url, {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     },
+                //     body: JSON.stringify(body)
+                // }).then(r => r.json()).then(resp => {
+                //     console.log(resp)
+                //     // localStorage.setItem('email', resp.usuario.email)
+                // }
+                // ).catch(console.warn)
             }
 
             // Cerrar Sesión
-            const button = document.getElementById('g_id_signout');
+            // const button = document.getElementById('g_id_signout');
 
-            button.onclick = async () => {
+            // button.onclick = async () => {
 
-                console.log(google.accounts.id)
-                google.accounts.id.disableAutoSelect()
-                google.accounts.id.revoke(localStorage.getItem('email'), done => {
-                    console.log('consent revoked');
-                    localStorage.clear()
-                    location.reload()
-                });
-            }
+            //     // console.log(google.accounts.id)
+            //     google.accounts.id.disableAutoSelect()
+            //     google.accounts.id.revoke(localStorage.getItem('email'), done => {
+            //         console.log('consent revoked');
+            //         localStorage.clear()
+            //         location.reload()
+            //     });
+            // }
 
-            var URLsearch = window.location.search;
-            console.log(URLsearch)
+            // var URLsearch = window.location.search;
+            // console.log(URLsearch)
 
 
             //GitHub Oauth
             // fill in your cliend_id
-            const client_id = 'b1e0c5d11e39b2b213f0';
+            // const client_id = '';
 
-            const authorize_uri = 'https://github.com/login/oauth/authorize';
-            const redirect_uri = 'http://localhost:4000/api/auth/github';
+            // const authorize_uri = 'https://github.com/login/oauth/authorize';
+            // const redirect_uri = '';
 
-            const link = document.getElementById('signin_github');
-            link.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`;
+            // const link = document.getElementById('signin_github');
+            // link.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`;
 
         </script>
 </body>
