@@ -46,6 +46,7 @@ const obtenerProyectos = async (req, res = response) => {
       }
 
       res.json({
+         ok: true,
          proyectos,
       });
    } catch (error) {
