@@ -27,7 +27,7 @@ router.post(
 // Obtener tareas por proyecto
 // api/tareas/:id
 router.get(
-   '/',
+   '/:proyecto',
    [
       // middlewares
       validarJWT,

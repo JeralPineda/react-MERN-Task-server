@@ -47,7 +47,7 @@ const crearTarea = async (req, res = response) => {
 
 // Obtener tareas por proyecto
 const obtenerTareas = async (req, res = response) => {
-   const { proyecto } = req.body;
+   const { proyecto } = req.params;
 
    try {
       const proyectoExiste = await Proyecto.findById(proyecto);
@@ -71,14 +71,10 @@ const obtenerTareas = async (req, res = response) => {
       // Obtener las tareas por proyecto
       const tareas = await Tarea.find({ proyecto }).sort({ creado: -1 });
 
-      if (tareas.length === 0) {
-         return res.status(404).json({
-            ok: false,
-            msg: 'No se encontraron tareas',
-         });
-      }
-
-      res.json({ tareas });
+      res.json({
+         ok: true,
+         tareas,
+      });
    } catch (error) {
       console.log(error);
 
