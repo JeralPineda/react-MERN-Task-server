@@ -38,7 +38,7 @@ const obtenerProyectos = async (req, res = response) => {
    try {
       const proyectos = await Proyecto.find({ creador: req.id }).sort({ creado: -1 });
 
-      if (proyectos.length === 0) {
+      if (!proyectos) {
          return res.status(404).json({
             ok: false,
             msg: 'No se encontraron proyectos',
