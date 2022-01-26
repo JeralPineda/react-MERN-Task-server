@@ -122,13 +122,14 @@ const actualizarTarea = async (req, res = response) => {
       // Crear un objeto con los datos nuevos de la tarea
       const nuevaTarea = {};
 
-      if (nombre) nuevaTarea.nombre = nombre;
-      if (estado) nuevaTarea.estado = estado;
+      nuevaTarea.nombre = nombre;
+      nuevaTarea.estado = estado;
 
       // Guardamos la tarea
       tarea = await Tarea.findByIdAndUpdate(id, { $set: nuevaTarea }, { new: true });
 
       res.json({
+         ok: true,
          tarea,
       });
    } catch (error) {
